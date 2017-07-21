@@ -6,8 +6,32 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C21B17921F21828D00286183 /* BinaryEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17911F21828D00286183 /* BinaryEncoder.swift */; };
+		C21B179A1F2182DD00286183 /* BinaryEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */; };
+		C21B179C1F2182DD00286183 /* libBinaryCoder.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B178A1F21827F00286183 /* libBinaryCoder.dylib */; };
+		C21B17A31F21854700286183 /* BinaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17A21F21854700286183 /* BinaryDecoder.swift */; };
+		C21B17A51F21856000286183 /* BinaryCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17A41F21856000286183 /* BinaryCodable.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C21B179D1F2182DD00286183 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C21B17821F21827F00286183 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C21B17891F21827F00286183;
+			remoteInfo = BinaryCoder;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		C21B178A1F21827F00286183 /* libBinaryCoder.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libBinaryCoder.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C21B17911F21828D00286183 /* BinaryEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncoder.swift; sourceTree = "<group>"; };
+		C21B17971F2182DD00286183 /* BinaryEncoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinaryEncoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncoderTests.swift; sourceTree = "<group>"; };
+		C21B179B1F2182DD00286183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C21B17A21F21854700286183 /* BinaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDecoder.swift; sourceTree = "<group>"; };
+		C21B17A41F21856000286183 /* BinaryCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryCodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -18,12 +42,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C21B17941F2182DD00286183 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C21B179C1F2182DD00286183 /* libBinaryCoder.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		C21B17811F21827F00286183 = {
 			isa = PBXGroup;
 			children = (
+				C21B17A41F21856000286183 /* BinaryCodable.swift */,
+				C21B17A21F21854700286183 /* BinaryDecoder.swift */,
+				C21B17911F21828D00286183 /* BinaryEncoder.swift */,
+				C21B17981F2182DD00286183 /* BinaryEncoderTests */,
 				C21B178B1F21827F00286183 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -32,8 +68,18 @@
 			isa = PBXGroup;
 			children = (
 				C21B178A1F21827F00286183 /* libBinaryCoder.dylib */,
+				C21B17971F2182DD00286183 /* BinaryEncoderTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C21B17981F2182DD00286183 /* BinaryEncoderTests */ = {
+			isa = PBXGroup;
+			children = (
+				C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */,
+				C21B179B1F2182DD00286183 /* Info.plist */,
+			);
+			path = BinaryEncoderTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -66,16 +112,39 @@
 			productReference = C21B178A1F21827F00286183 /* libBinaryCoder.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		C21B17961F2182DD00286183 /* BinaryEncoderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C21B179F1F2182DD00286183 /* Build configuration list for PBXNativeTarget "BinaryEncoderTests" */;
+			buildPhases = (
+				C21B17931F2182DD00286183 /* Sources */,
+				C21B17941F2182DD00286183 /* Frameworks */,
+				C21B17951F2182DD00286183 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C21B179E1F2182DD00286183 /* PBXTargetDependency */,
+			);
+			name = BinaryEncoderTests;
+			productName = BinaryEncoderTests;
+			productReference = C21B17971F2182DD00286183 /* BinaryEncoderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C21B17821F21827F00286183 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = mikeash;
 				TargetAttributes = {
 					C21B17891F21827F00286183 = {
+						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
+					};
+					C21B17961F2182DD00286183 = {
 						CreatedOnToolsVersion = 9.0;
 					};
 				};
@@ -93,19 +162,49 @@
 			projectRoot = "";
 			targets = (
 				C21B17891F21827F00286183 /* BinaryCoder */,
+				C21B17961F2182DD00286183 /* BinaryEncoderTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C21B17951F2182DD00286183 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C21B17861F21827F00286183 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C21B17921F21828D00286183 /* BinaryEncoder.swift in Sources */,
+				C21B17A51F21856000286183 /* BinaryCodable.swift in Sources */,
+				C21B17A31F21854700286183 /* BinaryDecoder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C21B17931F2182DD00286183 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C21B179A1F2182DD00286183 /* BinaryEncoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C21B179E1F2182DD00286183 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C21B17891F21827F00286183 /* BinaryCoder */;
+			targetProxy = C21B179D1F2182DD00286183 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C21B178C1F21827F00286183 /* Debug */ = {
@@ -214,22 +313,58 @@
 		C21B178F1F21827F00286183 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 44N4WJ59X4;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		C21B17901F21827F00286183 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 44N4WJ59X4;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		C21B17A01F2182DD00286183 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 44N4WJ59X4;
+				INFOPLIST_FILE = BinaryEncoderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mikeash.BinaryEncoderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		C21B17A11F2182DD00286183 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 44N4WJ59X4;
+				INFOPLIST_FILE = BinaryEncoderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mikeash.BinaryEncoderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -250,6 +385,14 @@
 			buildConfigurations = (
 				C21B178F1F21827F00286183 /* Debug */,
 				C21B17901F21827F00286183 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C21B179F1F2182DD00286183 /* Build configuration list for PBXNativeTarget "BinaryEncoderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C21B17A01F2182DD00286183 /* Debug */,
+				C21B17A11F2182DD00286183 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
