@@ -34,7 +34,7 @@ public extension BinaryEncoder {
 
 public extension BinaryEncoder {
     func encode(_ value: Bool) throws {
-        try encode(value ? 1 : 0 as UInt8)
+        try encode(value ? 1 as UInt8 : 0 as UInt8)
     }
     
     func encode(_ value: Float) {
@@ -58,6 +58,9 @@ public extension BinaryEncoder {
             encode(v)
         case let v as Double:
             encode(v)
+            
+        case let v as Bool:
+            try encode(v)
             
         case let binary as BinaryEncodable:
             try binary.binaryEncode(to: self)
