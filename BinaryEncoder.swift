@@ -40,9 +40,9 @@ public extension BinaryEncoder {
     func encode<T: FixedWidthInteger>(_ value: T) {
         switch value {
         case let v as Int:
-            appendBytes(of: Int64(v).bigEndian)
+            encode(Int64(v))
         case let v as UInt:
-            appendBytes(of: UInt64(v).bigEndian)
+            encode(UInt64(v))
         default:
             appendBytes(of: value.bigEndian)
         }
