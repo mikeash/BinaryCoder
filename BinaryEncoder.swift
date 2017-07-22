@@ -33,19 +33,8 @@ public extension BinaryEncoder {
 }
 
 public extension BinaryEncoder {
-    func encode(_ value: BinaryEncodable) throws {
-        try value.binaryEncode(to: self)
-    }
-    
-    func encode<T: FixedWidthInteger>(_ value: T) {
-        switch value {
-        case let v as Int:
-            encode(Int64(v))
-        case let v as UInt:
-            encode(UInt64(v))
-        default:
-            appendBytes(of: value.bigEndian)
-        }
+    func encode(_ value: Bool) throws {
+        try encode(value ? 1 : 0 as UInt8)
     }
     
     func encode(_ value: Float) {
@@ -56,15 +45,32 @@ public extension BinaryEncoder {
         appendBytes(of: CFConvertDoubleHostToSwapped(value))
     }
     
-    func encode(_ string: String) throws {
-        try encodeEncodable(Array(string.utf8))
-    }
-    
-    func encodeEncodable(_ encodable: Encodable) throws {
-        guard let binaryEncodable = encodable as? BinaryEncodable else {
+    func encode(_ encodable: Encodable) throws {
+        switch encodable {
+        case let v as Int:
+            try encode(Int64(v))
+        case let v as UInt:
+            try encode(UInt64(v))
+        case let v as FixedWidthInteger:
+            v.encode(to: self)
+            
+        case let v as Float:
+            encode(v)
+        case let v as Double:
+            encode(v)
+            
+        case let binary as BinaryEncodable:
+            try binary.binaryEncode(to: self)
+            
+        default:
             throw Error.typeNotConformingToBinaryEncodable(type(of: encodable))
         }
-        try binaryEncodable.binaryEncode(to: self)
+    }
+}
+
+private extension FixedWidthInteger {
+    func encode(to encoder: BinaryEncoder) {
+        encoder.appendBytes(of: self.bigEndian)
     }
 }
 
@@ -87,11 +93,11 @@ extension BinaryEncoder: Encoder {
     }
     
     public func unkeyedContainer() -> UnkeyedEncodingContainer {
-        fatalError()
+        return UnkeyedContanier(encoder: self)
     }
     
     public func singleValueContainer() -> SingleValueEncodingContainer {
-        fatalError()
+        return UnkeyedContanier(encoder: self)
     }
     
     private struct KeyedContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
@@ -99,64 +105,8 @@ extension BinaryEncoder: Encoder {
         
         var codingPath: [CodingKey?] { return [] }
         
-        mutating func encode(_ value: Bool, forKey key: Key) throws {
-            encoder.encode(value ? 1 : 0 as UInt8)
-        }
-        
-        mutating func encode(_ value: Int, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Int8, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Int16, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Int32, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Int64, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: UInt, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: UInt8, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: UInt16, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: UInt32, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: UInt64, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Float, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: Double, forKey key: Key) throws {
-            encoder.encode(value)
-        }
-        
-        mutating func encode(_ value: String, forKey key: Key) throws {
-            try encoder.encode(value)
-        }
-        
         mutating func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
-            try encoder.encodeEncodable(value)
+            try encoder.encode(value)
         }
         
         mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
@@ -173,6 +123,31 @@ extension BinaryEncoder: Encoder {
         
         mutating func superEncoder(forKey key: Key) -> Encoder {
             return encoder
+        }
+    }
+    
+    private struct UnkeyedContanier: UnkeyedEncodingContainer, SingleValueEncodingContainer {
+        var encoder: BinaryEncoder
+        
+        var codingPath: [CodingKey?] { return [] }
+        
+        mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
+            return encoder.container(keyedBy: keyType)
+        }
+        
+        mutating func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
+            return self
+        }
+        
+        mutating func superEncoder() -> Encoder {
+            return encoder
+        }
+        
+        mutating func encodeNil() throws {
+        }
+        
+        mutating func encode<T>(_ value: T) throws where T : Encodable {
+            try encoder.encode(value)
         }
     }
 }
