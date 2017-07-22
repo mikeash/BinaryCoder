@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C21B17921F21828D00286183 /* BinaryEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17911F21828D00286183 /* BinaryEncoder.swift */; };
-		C21B179A1F2182DD00286183 /* BinaryEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */; };
+		C21B179A1F2182DD00286183 /* BinaryCooderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17991F2182DD00286183 /* BinaryCooderTests.swift */; };
 		C21B179C1F2182DD00286183 /* libBinaryCoder.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C21B178A1F21827F00286183 /* libBinaryCoder.dylib */; };
 		C21B17A31F21854700286183 /* BinaryDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17A21F21854700286183 /* BinaryDecoder.swift */; };
 		C21B17A51F21856000286183 /* BinaryCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B17A41F21856000286183 /* BinaryCodable.swift */; };
@@ -28,7 +28,7 @@
 		C21B178A1F21827F00286183 /* libBinaryCoder.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libBinaryCoder.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C21B17911F21828D00286183 /* BinaryEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncoder.swift; sourceTree = "<group>"; };
 		C21B17971F2182DD00286183 /* BinaryEncoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinaryEncoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryEncoderTests.swift; sourceTree = "<group>"; };
+		C21B17991F2182DD00286183 /* BinaryCooderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryCooderTests.swift; sourceTree = "<group>"; };
 		C21B179B1F2182DD00286183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C21B17A21F21854700286183 /* BinaryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryDecoder.swift; sourceTree = "<group>"; };
 		C21B17A41F21856000286183 /* BinaryCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryCodable.swift; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		C21B17981F2182DD00286183 /* BinaryEncoderTests */ = {
 			isa = PBXGroup;
 			children = (
-				C21B17991F2182DD00286183 /* BinaryEncoderTests.swift */,
+				C21B17991F2182DD00286183 /* BinaryCooderTests.swift */,
 				C21B179B1F2182DD00286183 /* Info.plist */,
 			);
 			path = BinaryEncoderTests;
@@ -192,7 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C21B179A1F2182DD00286183 /* BinaryEncoderTests.swift in Sources */,
+				C21B179A1F2182DD00286183 /* BinaryCooderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
