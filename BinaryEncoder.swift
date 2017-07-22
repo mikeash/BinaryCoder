@@ -71,12 +71,6 @@ public extension BinaryEncoder {
     }
 }
 
-private extension FixedWidthInteger {
-    func encode(to encoder: BinaryEncoder) {
-        encoder.appendBytes(of: self.bigEndian)
-    }
-}
-
 private extension BinaryEncoder {
     func appendBytes<T>(of: T) {
         var target = of
@@ -154,3 +148,10 @@ extension BinaryEncoder: Encoder {
         }
     }
 }
+
+private extension FixedWidthInteger {
+    func encode(to encoder: BinaryEncoder) {
+        encoder.appendBytes(of: self.bigEndian)
+    }
+}
+
