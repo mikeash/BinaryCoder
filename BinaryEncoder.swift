@@ -102,23 +102,23 @@ extension BinaryEncoder: Encoder {
         
         var codingPath: [CodingKey?] { return [] }
         
-        mutating func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
+        func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
             try encoder.encode(value)
         }
         
-        mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
+        func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
             return encoder.container(keyedBy: keyType)
         }
         
-        mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
+        func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
             return encoder.unkeyedContainer()
         }
         
-        mutating func superEncoder() -> Encoder {
+        func superEncoder() -> Encoder {
             return encoder
         }
         
-        mutating func superEncoder(forKey key: Key) -> Encoder {
+        func superEncoder(forKey key: Key) -> Encoder {
             return encoder
         }
     }
@@ -128,22 +128,22 @@ extension BinaryEncoder: Encoder {
         
         var codingPath: [CodingKey?] { return [] }
         
-        mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
+        func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
             return encoder.container(keyedBy: keyType)
         }
         
-        mutating func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
+        func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
             return self
         }
         
-        mutating func superEncoder() -> Encoder {
+        func superEncoder() -> Encoder {
             return encoder
         }
         
-        mutating func encodeNil() throws {
+        func encodeNil() throws {
         }
         
-        mutating func encode<T>(_ value: T) throws where T : Encodable {
+        func encode<T>(_ value: T) throws where T : Encodable {
             try encoder.encode(value)
         }
     }
