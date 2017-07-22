@@ -56,10 +56,8 @@ public extension BinaryEncoder {
         appendBytes(of: CFConvertDoubleHostToSwapped(value))
     }
     
-    func encode(_ string: String) {
-        let bytes = Array(string.utf8)
-        encode(bytes.count)
-        data.append(contentsOf: bytes)
+    func encode(_ string: String) throws {
+        try encodeEncodable(Array(string.utf8))
     }
     
     func encodeEncodable(_ encodable: Encodable) throws {
@@ -154,7 +152,7 @@ extension BinaryEncoder: Encoder {
         }
         
         mutating func encode(_ value: String, forKey key: Key) throws {
-            encoder.encode(value)
+            try encoder.encode(value)
         }
         
         mutating func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
