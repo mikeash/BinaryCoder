@@ -32,6 +32,7 @@ public extension BinaryDecoder {
         case prematureEndOfData
         
         case typeNotConformingToBinaryDecodable(Decodable.Type)
+        case typeNotConformingToDecodable(Any.Type)
         
         case intOutOfRange(Int64)
         case uintOutOfRange(UInt64)

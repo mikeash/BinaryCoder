@@ -45,6 +45,29 @@ class BinaryCoderTests: XCTestCase {
         XCTAssertEqual(s.h, false)
         XCTAssertEqual(s.i, true)
     }
+    
+    func testString() {
+        struct WithString: BinaryCodable {
+            var a: String
+            var b: String
+            var c: Int
+        }
+        AssertRoundtrip(WithString(a: "hello", b: "world", c: 42))
+    }
+}
+
+private func AssertEqual<T>(_ lhs: T, _ rhs: T, file: StaticString = #file, line: UInt = #line) {
+    XCTAssertEqual(String(describing: lhs), String(describing: rhs), file: file, line: line)
+}
+
+private func AssertRoundtrip<T: BinaryCodable>(_ original: T, file: StaticString = #file, line: UInt = #line) {
+    do {
+        let data = try BinaryEncoder.encode(original)
+        let roundtripped = try BinaryDecoder.decode(T.self, data: data)
+        AssertEqual(original, roundtripped, file: file, line: line)
+    } catch {
+        XCTFail("Unexpected error: \(error)", file: file, line: line)
+    }
 }
 
 struct Primitives: BinaryCodable {

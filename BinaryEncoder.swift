@@ -29,6 +29,7 @@ public extension BinaryEncoder {
 public extension BinaryEncoder {
     enum Error: Swift.Error {
         case typeNotConformingToBinaryEncodable(Encodable.Type)
+        case typeNotConformingToEncodable(Any.Type)
     }
 }
 
