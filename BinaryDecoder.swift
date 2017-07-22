@@ -41,30 +41,11 @@ public extension BinaryDecoder {
 }
 
 public extension BinaryDecoder {
-    func decode<T: BinaryDecodable>(_ type: T.Type) throws -> T {
-        return try T(fromBinary: self)
-    }
-    
-    func decode<T: FixedWidthInteger>(_ type: T.Type) throws -> T {
-        switch type {
-        case is Int.Type:
-            let v = try decode(Int64.self)
-            if let v = T(exactly: v) {
-                return v
-            } else {
-                throw Error.intOutOfRange(v)
-            }
-        case is UInt.Type:
-            let v = try decode(UInt64.self)
-            if let v = T(exactly: v) {
-                return v
-            } else {
-                throw Error.uintOutOfRange(v)
-            }
-        default:
-            var v = T()
-            try read(into: &v)
-            return T(bigEndian: v)
+    func decode(_ type: Bool.Type) throws -> Bool {
+        switch try decode(UInt8.self) {
+        case 0: return false
+        case 1: return true
+        case let x: throw Error.boolOutOfRange(x)
         }
     }
     
@@ -80,20 +61,39 @@ public extension BinaryDecoder {
         return CFConvertDoubleSwappedToHost(swapped)
     }
     
-    func decode(_ type: String.Type) throws -> String {
-        let utf8 = try decodeDecodable([UInt8].self)
-        if let s = String(bytes: utf8, encoding: .utf8) {
-            return s
-        } else {
-            throw Error.invalidUTF8(utf8)
-        }
-    }
-    
-    func decodeDecodable<T: Decodable>(_ type: T.Type) throws -> T {
-        guard let binaryT = T.self as? BinaryDecodable.Type else {
+    func decode<T: Decodable>(_ type: T.Type) throws -> T {
+        switch type {
+        case is Int.Type:
+            let v = try decode(Int64.self)
+            if let v = Int(exactly: v) {
+                return v as! T
+            } else {
+                throw Error.intOutOfRange(v)
+            }
+        case is UInt.Type:
+            let v = try decode(UInt64.self)
+            if let v = UInt(exactly: v) {
+                return v as! T
+            } else {
+                throw Error.uintOutOfRange(v)
+            }
+        case let intT as FixedWidthInteger.Type:
+            return try intT.from(decoder: self) as! T
+            
+        case is Float.Type:
+            return try decode(Float.self) as! T
+        case is Double.Type:
+            return try decode(Double.self) as! T
+            
+        case is Bool.Type:
+            return try decode(Bool.self) as! T
+            
+        case let binaryT as BinaryDecodable.Type:
+            return try binaryT.init(fromBinary: self) as! T
+            
+        default:
             throw Error.typeNotConformingToBinaryDecodable(type)
         }
-        return try binaryT.init(fromBinary: self) as! T
     }
 }
 
@@ -144,68 +144,8 @@ extension BinaryDecoder: Decoder {
             return true
         }
         
-        func decodeIfPresent(_ type: Bool.Type, forKey key: Key) throws -> Bool? {
-            switch try decoder.decode(UInt8.self) {
-            case 0: return false
-            case 1: return true
-            case let x: throw Error.boolOutOfRange(x)
-            }
-        }
-        
-        func decodeIfPresent(_ type: Int.Type, forKey key: Key) throws -> Int? {
-            return try decoder.decode(Int.self)
-        }
-        
-        func decodeIfPresent(_ type: Int8.Type, forKey key: Key) throws -> Int8? {
-            return try decoder.decode(Int8.self)
-        }
-        
-        func decodeIfPresent(_ type: Int16.Type, forKey key: Key) throws -> Int16? {
-            return try decoder.decode(Int16.self)
-        }
-        
-        func decodeIfPresent(_ type: Int32.Type, forKey key: Key) throws -> Int32? {
-            return try decoder.decode(Int32.self)
-        }
-        
-        func decodeIfPresent(_ type: Int64.Type, forKey key: Key) throws -> Int64? {
-            return try decoder.decode(Int64.self)
-        }
-        
-        func decodeIfPresent(_ type: UInt.Type, forKey key: Key) throws -> UInt? {
-            return try decoder.decode(UInt.self)
-        }
-        
-        func decodeIfPresent(_ type: UInt8.Type, forKey key: Key) throws -> UInt8? {
-            return try decoder.decode(UInt8.self)
-        }
-        
-        func decodeIfPresent(_ type: UInt16.Type, forKey key: Key) throws -> UInt16? {
-            return try decoder.decode(UInt16.self)
-        }
-        
-        func decodeIfPresent(_ type: UInt32.Type, forKey key: Key) throws -> UInt32? {
-            return try decoder.decode(UInt32.self)
-        }
-        
-        func decodeIfPresent(_ type: UInt64.Type, forKey key: Key) throws -> UInt64? {
-            return try decoder.decode(UInt64.self)
-        }
-        
-        func decodeIfPresent(_ type: Float.Type, forKey key: Key) throws -> Float? {
-            return try decoder.decode(Float.self)
-        }
-        
-        func decodeIfPresent(_ type: Double.Type, forKey key: Key) throws -> Double? {
-            return try decoder.decode(Double.self)
-        }
-        
-        func decodeIfPresent(_ type: String.Type, forKey key: Key) throws -> String? {
-            return try decoder.decode(String.self)
-        }
-        
         func decodeIfPresent<T>(_ type: T.Type, forKey key: Key) throws -> T? where T : Decodable {
-            return try decoder.decodeDecodable(T.self)
+            return try decoder.decode(T.self)
         }
         
         func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
@@ -226,4 +166,10 @@ extension BinaryDecoder: Decoder {
     }
 }
 
-
+private extension FixedWidthInteger {
+    static func from (decoder: BinaryDecoder) throws -> Self {
+        var v = Self.init()
+        try decoder.read(into: &v)
+        return self.init(bigEndian: v)
+    }
+}
