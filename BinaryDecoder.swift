@@ -126,11 +126,11 @@ extension BinaryDecoder: Decoder {
     }
     
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        fatalError()
+        return UnkeyedContainer(decoder: self)
     }
     
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
-        fatalError()
+        return UnkeyedContainer(decoder: self)
     }
     
     private struct KeyedContainer<Key: CodingKey>: KeyedDecodingContainerProtocol {
@@ -162,6 +162,40 @@ extension BinaryDecoder: Decoder {
         
         func superDecoder(forKey key: Key) throws -> Decoder {
             return decoder
+        }
+    }
+    
+    private struct UnkeyedContainer: UnkeyedDecodingContainer, SingleValueDecodingContainer {
+        var decoder: BinaryDecoder
+        
+        var codingPath: [CodingKey?] { return [] }
+        
+        var count: Int? { return nil }
+        
+        var isAtEnd: Bool { return false }
+        
+        func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
+            return try decoder.decode(type)
+        }
+        
+        func decodeIfPresent<T>(_ type: T.Type) throws -> T? where T : Decodable {
+            return try decoder.decode(type)
+        }
+        
+        func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
+            return try decoder.container(keyedBy: type)
+        }
+        
+        func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
+            return self
+        }
+        
+        func superDecoder() throws -> Decoder {
+            return decoder
+        }
+        
+        func decodeNil() -> Bool {
+            return true
         }
     }
 }
