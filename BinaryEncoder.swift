@@ -49,11 +49,11 @@ public extension BinaryEncoder {
     }
     
     func encode(_ value: Float) {
-        appendBytes(of: CFConvertFloatHostToSwapped(value).v)
+        appendBytes(of: CFConvertFloatHostToSwapped(value))
     }
     
     func encode(_ value: Double) {
-        appendBytes(of: CFConvertDoubleHostToSwapped(value).v)
+        appendBytes(of: CFConvertDoubleHostToSwapped(value))
     }
     
     func encode(_ string: String) {
