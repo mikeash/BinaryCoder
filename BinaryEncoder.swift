@@ -4,7 +4,7 @@ import CoreFoundation
 
 /// A protocol for types which can be encoded to binary.
 public protocol BinaryEncodable: Encodable {
-    func binaryEncode(to: BinaryEncoder) throws
+    func binaryEncode(to encoder: BinaryEncoder) throws
 }
 
 /// Provide a default implementation which calls through to `Encodable`. This
