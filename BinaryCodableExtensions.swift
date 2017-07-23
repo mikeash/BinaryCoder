@@ -1,3 +1,4 @@
+/// Implementations of BinaryCodable for built-in types.
 
 import Foundation
 
