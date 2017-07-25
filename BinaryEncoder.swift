@@ -100,7 +100,7 @@ private extension BinaryEncoder {
 }
 
 extension BinaryEncoder: Encoder {
-    public var codingPath: [CodingKey?] { return [] }
+    public var codingPath: [CodingKey] { return [] }
     
     public var userInfo: [CodingUserInfoKey : Any] { return [:] }
     
@@ -119,11 +119,13 @@ extension BinaryEncoder: Encoder {
     private struct KeyedContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
         var encoder: BinaryEncoder
         
-        var codingPath: [CodingKey?] { return [] }
+        var codingPath: [CodingKey] { return [] }
         
         func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
             try encoder.encode(value)
         }
+        
+        func encodeNil(forKey key: Key) throws {}
         
         func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
             return encoder.container(keyedBy: keyType)
@@ -145,8 +147,10 @@ extension BinaryEncoder: Encoder {
     private struct UnkeyedContanier: UnkeyedEncodingContainer, SingleValueEncodingContainer {
         var encoder: BinaryEncoder
         
-        var codingPath: [CodingKey?] { return [] }
+        var codingPath: [CodingKey] { return [] }
         
+        var count: Int { return 0 }
+
         func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
             return encoder.container(keyedBy: keyType)
         }

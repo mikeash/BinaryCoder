@@ -151,7 +151,7 @@ private extension BinaryDecoder {
 }
 
 extension BinaryDecoder: Decoder {
-    public var codingPath: [CodingKey?] { return [] }
+    public var codingPath: [CodingKey] { return [] }
     
     public var userInfo: [CodingUserInfoKey : Any] { return [:] }
     
@@ -170,7 +170,7 @@ extension BinaryDecoder: Decoder {
     private struct KeyedContainer<Key: CodingKey>: KeyedDecodingContainerProtocol {
         var decoder: BinaryDecoder
         
-        var codingPath: [CodingKey?] { return [] }
+        var codingPath: [CodingKey] { return [] }
         
         var allKeys: [Key] { return [] }
         
@@ -178,7 +178,11 @@ extension BinaryDecoder: Decoder {
             return true
         }
         
-        func decodeIfPresent<T>(_ type: T.Type, forKey key: Key) throws -> T? where T : Decodable {
+        func decodeNil(forKey key: Key) throws -> Bool {
+            return true
+        }
+        
+        func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
             return try decoder.decode(T.self)
         }
         
@@ -202,17 +206,15 @@ extension BinaryDecoder: Decoder {
     private struct UnkeyedContainer: UnkeyedDecodingContainer, SingleValueDecodingContainer {
         var decoder: BinaryDecoder
         
-        var codingPath: [CodingKey?] { return [] }
+        var codingPath: [CodingKey] { return [] }
         
         var count: Int? { return nil }
         
+        var currentIndex: Int { return 0 }
+
         var isAtEnd: Bool { return false }
         
         func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
-            return try decoder.decode(type)
-        }
-        
-        func decodeIfPresent<T>(_ type: T.Type) throws -> T? where T : Decodable {
             return try decoder.decode(type)
         }
         
