@@ -107,7 +107,7 @@ public extension BinaryDecoder {
                 throw Error.uintOutOfRange(v)
             }
         case let intT as FixedWidthInteger.Type:
-            return try intT.from(decoder: self) as! T
+            return try intT.from(binaryDecoder: self) as! T
             
         case is Float.Type:
             return try decode(Float.self) as! T
@@ -237,9 +237,9 @@ extension BinaryDecoder: Decoder {
 }
 
 private extension FixedWidthInteger {
-    static func from(decoder: BinaryDecoder) throws -> Self {
+    static func from(binaryDecoder: BinaryDecoder) throws -> Self {
         var v = Self.init()
-        try decoder.read(into: &v)
+        try binaryDecoder.read(into: &v)
         return self.init(bigEndian: v)
     }
 }

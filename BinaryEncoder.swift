@@ -68,7 +68,7 @@ public extension BinaryEncoder {
         case let v as UInt:
             try encode(UInt64(v))
         case let v as FixedWidthInteger:
-            v.encode(to: self)
+            v.binaryEncode(to: self)
             
         case let v as Float:
             encode(v)
@@ -173,7 +173,7 @@ extension BinaryEncoder: Encoder {
 }
 
 private extension FixedWidthInteger {
-    func encode(to encoder: BinaryEncoder) {
+    func binaryEncode(to encoder: BinaryEncoder) {
         encoder.appendBytes(of: self.bigEndian)
     }
 }
