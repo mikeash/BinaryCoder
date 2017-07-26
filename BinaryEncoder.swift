@@ -163,8 +163,7 @@ extension BinaryEncoder: Encoder {
             return encoder
         }
         
-        func encodeNil() throws {
-        }
+        func encodeNil() throws {}
         
         func encode<T>(_ value: T) throws where T : Encodable {
             try encoder.encode(value)
