@@ -218,6 +218,10 @@ extension BinaryDecoder: Decoder {
             return try decoder.decode(type)
         }
         
+        func decodeNil() -> Bool {
+            return true
+        }
+        
         func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
             return try decoder.container(keyedBy: type)
         }
@@ -228,10 +232,6 @@ extension BinaryDecoder: Decoder {
         
         func superDecoder() throws -> Decoder {
             return decoder
-        }
-        
-        func decodeNil() -> Bool {
-            return true
         }
     }
 }
