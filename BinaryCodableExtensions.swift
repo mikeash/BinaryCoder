@@ -44,3 +44,33 @@ extension String: BinaryCodable {
         }
     }
 }
+
+extension FixedWidthInteger where Self: BinaryEncodable {
+    public func binaryEncode(to encoder: BinaryEncoder) {
+        encoder.appendBytes(of: self.bigEndian)
+    }
+}
+
+extension FixedWidthInteger where Self: BinaryDecodable {
+    public init(fromBinary binaryDecoder: BinaryDecoder) throws {
+        var v = Self.init()
+        try binaryDecoder.read(into: &v)
+        self.init(bigEndian: v)
+    }
+}
+
+// for size in [8, 16, 32, 64] {
+//     for prefix in ["", "U"] {
+//         print("extension \(prefix)Int\(size): BinaryCodable {}")
+//     }
+// }
+// Copy the above snippet, then run: `pbpaste | swift`
+extension Int8: BinaryCodable {}
+extension UInt8: BinaryCodable {}
+extension Int16: BinaryCodable {}
+extension UInt16: BinaryCodable {}
+extension Int32: BinaryCodable {}
+extension UInt32: BinaryCodable {}
+extension Int64: BinaryCodable {}
+extension UInt64: BinaryCodable {}
+

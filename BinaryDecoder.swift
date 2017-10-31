@@ -106,8 +106,6 @@ public extension BinaryDecoder {
             } else {
                 throw Error.uintOutOfRange(v)
             }
-        case let intT as FixedWidthInteger.Type:
-            return try intT.from(binaryDecoder: self) as! T
             
         case is Float.Type:
             return try decode(Float.self) as! T
@@ -123,6 +121,12 @@ public extension BinaryDecoder {
         default:
             throw Error.typeNotConformingToBinaryDecodable(type)
         }
+    }
+    
+    /// Read the appropriate number of raw bytes directly into the given value. No byte
+    /// swapping or other postprocessing is done.
+    func read<T>(into: inout T) throws {
+        try read(MemoryLayout<T>.size, into: &into)
     }
 }
 
@@ -141,12 +145,6 @@ private extension BinaryDecoder {
         })
         
         cursor += byteCount
-    }
-    
-    /// Read the appropriate number of raw bytes directly into the given value. No byte
-    /// swapping or other postprocessing is done.
-    func read<T>(into: inout T) throws {
-        try read(MemoryLayout<T>.size, into: &into)
     }
 }
 

@@ -47,7 +47,7 @@ public extension BinaryEncoder {
     }
 }
 
-/// Methods for decoding various types.
+/// Methods for encoding various types.
 public extension BinaryEncoder {
     func encode(_ value: Bool) throws {
         try encode(value ? 1 as UInt8 : 0 as UInt8)
@@ -67,8 +67,6 @@ public extension BinaryEncoder {
             try encode(Int64(v))
         case let v as UInt:
             try encode(UInt64(v))
-        case let v as FixedWidthInteger:
-            v.binaryEncode(to: self)
             
         case let v as Float:
             encode(v)
@@ -85,10 +83,7 @@ public extension BinaryEncoder {
             throw Error.typeNotConformingToBinaryEncodable(type(of: encodable))
         }
     }
-}
-
-/// Internal method for encoding raw data.
-private extension BinaryEncoder {
+    
     /// Append the raw bytes of the parameter to the encoder's data. No byte-swapping
     /// or other encoding is done.
     func appendBytes<T>(of: T) {
@@ -170,10 +165,3 @@ extension BinaryEncoder: Encoder {
         }
     }
 }
-
-private extension FixedWidthInteger {
-    func binaryEncode(to encoder: BinaryEncoder) {
-        encoder.appendBytes(of: self.bigEndian)
-    }
-}
-
