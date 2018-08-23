@@ -3,29 +3,21 @@
 import Foundation
 
 
-extension Array: BinaryCodable {
+extension Array: BinaryCodable where Element: Codable {
     public func binaryEncode(to encoder: BinaryEncoder) throws {
-        guard Element.self is Encodable.Type else {
-            throw BinaryEncoder.Error.typeNotConformingToEncodable(Element.self)
-        }
-        
         try encoder.encode(self.count)
         for element in self {
-            try (element as! Encodable).encode(to: encoder)
+            try (element).encode(to: encoder)
         }
     }
     
     public init(fromBinary decoder: BinaryDecoder) throws {
-        guard let binaryElement = Element.self as? Decodable.Type else {
-            throw BinaryDecoder.Error.typeNotConformingToDecodable(Element.self)
-        }
-        
         let count = try decoder.decode(Int.self)
         self.init()
         self.reserveCapacity(count)
         for _ in 0 ..< count {
-            let decoded = try binaryElement.init(from: decoder)
-            self.append(decoded as! Element)
+            let decoded = try Element.self.init(from: decoder)
+            self.append(decoded)
         }
     }
 }
